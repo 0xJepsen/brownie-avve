@@ -34,11 +34,16 @@ def main():
     amount_to_barrow = (1 / dai_to_eth_price) * (barrowable_eth * 0.95)
     print(f"Barrowing {amount_to_barrow}")
     dai_address = config["networks"][network.show_active()]["dai_token"]
-    tx = lending_pool.barrow(
-        dai_address, Web3.toWei(amount_to_barrow, "ether"), 1, 0, account.address
-    {"from": account})
+    tx = lending_pool.borrow(
+        dai_address,
+        Web3.toWei(amount_to_barrow, "ether"),
+        1,
+        0,
+        account.address,
+        {"from": account},
+    )
     tx.wait(1)
-    
+    get_barrowable_data(lending_pool, account)
 
 
 def get_asset_price(price_feed_address):
