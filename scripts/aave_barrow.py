@@ -25,6 +25,26 @@ def main():
     tx.wait(1)
     print("Deposited!")
     barrowable_eth, total_dept = get_barrowable_data(lending_pool, account)
+    print("Barrowing Dai")
+    dai_to_eth_price = get_asset_price(
+        config["networks"][network.show_active()]["dai_eth_price_feed"]
+    )
+    print(f"Latest Dai to Eth price is {dai_to_eth_price}")
+
+    amount_to_barrow = (1 / dai_to_eth_price) * (barrowable_eth * 0.95)
+    print(f"Barrowing {amount_to_barrow}")
+    dai_address = config["networks"][network.show_active()]["dai_token"]
+    tx = lending_pool.barrow(
+        dai_address, Web3.toWei(amount_to_barrow, "ether"), 1, 0, account.address
+    {"from": account})
+    tx.wait(1)
+    
+
+
+def get_asset_price(price_feed_address):
+    price_contract = interface.AggregatorV3Interface(price_feed_address)
+    latest_price = price_contract.latestRoundData()[1]
+    return float(Web3.fromWei(latest_price, "ether"))
 
 
 def get_barrowable_data(lending_pool, account):
