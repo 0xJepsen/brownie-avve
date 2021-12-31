@@ -1,8 +1,16 @@
+dependencies:
+  - aave/protocol-v2@1.0.1
+compiler:
+  solc:
+    remappings:
+      - '@aave=aave/protocol-v2@1.0.1'
 networks:
   kovan:
     weth_token: '0xd0A1E359811322d97991E03f863a0C30C2cF029C'
+    lending_pool_addresses_provider: '0x88757f2f99175387aB4C6a4b3067c77A695b0349'
   mainnet-fork:
     weth_token: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
+    lending_pool_addresses_provider: '0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5'
 dotenv: .env
 wallets:
   from_key: ${PRIVATE_KEY}
