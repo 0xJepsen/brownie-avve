@@ -24,6 +24,25 @@ def main():
     )
     tx.wait(1)
     print("Deposited!")
+    barrowable_eth, total_dept = get_barrowable_data(lending_pool, account)
+
+
+def get_barrowable_data(lending_pool, account):
+    (
+        total_collateral_eth,
+        total_dept_eth,
+        availible_barrow_eth,
+        current_liquidation_threshold,
+        ltv,
+        health_factor,
+    ) = lending_pool.getUserAccountData(account.address)
+    availible_barrow_eth = Web3.fromWei(availible_barrow_eth, "ether")
+    total_collateral_eth = Web3.fromWei(total_collateral_eth, "ether")
+    total_dept_eth = Web3.fromWei(total_dept_eth, "ether")
+    print(f"You have {total_collateral_eth} worth of eth deposited")
+    print(f"You have {total_dept_eth} worth of eth barrowed")
+    print(f"You can barrow {availible_barrow_eth} more eth")
+    return (float(availible_barrow_eth), float(total_dept_eth))
 
 
 def get_lending_pool():
