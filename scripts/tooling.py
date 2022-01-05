@@ -7,6 +7,7 @@ LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
     "gamache",
     "local-ganache",
 ]
+# love this tooling
 
 
 def get_account(index=None, id=None):
